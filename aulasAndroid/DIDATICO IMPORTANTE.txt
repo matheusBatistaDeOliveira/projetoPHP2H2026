@@ -27,49 +27,58 @@ android:scaleType="centerCrop"
 BACK ADAPTADOR RECYCLE
 package br.com.etecia.myapp;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AdapterLivros extends RecyclerView.Adapter<AdapterLivros.ViewHolder>{
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
-    }
+public class MainActivity extends AppCompatActivity {
+    List<Livros> lstLivros;
+    RecyclerView idReqLivros;
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-    }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
-        MaterialCardView modeloCardLivros;
-        ImageView modeloImgLivros;
+        idReqLivros = findViewById(R.id.idReqLivros);
         
-        TextView modeloTituloLivro;
-        
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            modeloTituloLivro = itemView.findViewById(R.id.modeloTituloLivro);
-            modeloImgLivros = itemView.findViewById(R.id.modeloImgLivros);
-            modeloCardLivros = itemView.findViewById(R.id.modeloCardLivros);
-        }
-    }
+        lstLivros = new ArrayList<>();
 
+        lstLivros.add(new Livros("Romance", "Livro de Romance", R.drawable.livro, 22.55));
+        lstLivros.add(new Livros("Louco", "Livro de Loucura", R.drawable.livrodois, 39.55));
+        lstLivros.add(new Livros("A Dama da Morte", "Livro de Drama", R.drawable.adamadamorte, 23.55));
+        lstLivros.add(new Livros("ElDiablo", "Livro de Ação", R.drawable.eldiablo, 22));
+        lstLivros.add(new Livros("Futebol", "Livro de Esporte", R.drawable.fute, 22.05));
+        lstLivros.add(new Livros("Harry Potter", "Livro de Filosofia", R.drawable.harrypotter, 2.55));
+        lstLivros.add(new Livros("Não ficar Doido", "Livro de Real", R.drawable.naoficardoido, 122.55));
+        lstLivros.add(new Livros("Herdeiro da Coroa", "Livro de Ficção", R.drawable.herdeirodacoroa, 92.55));
+        lstLivros.add(new Livros("Jogo da Vida", "Livro de Besteira", R.drawable.jogodavida, 62.55));
+        lstLivros.add(new Livros("Nunca Minta", "Livro de Lei de Vida", R.drawable.nuncaminta, 42.55));
+
+
+        AdapterLivros adapterLivros = new AdapterLivros(getApplicationContext(), lstLivros);//ERRO
+
+
+        idReqLivros.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+
+        idReqLivros.setAdapter(adapterLivros);
+    }
 }
 
 
@@ -127,3 +136,9 @@ public class Livros {
 }
 
 ---------------------------------------------------------------
+MainActivity.java
+
+---
+EXTRA
+
+https://developer.android.com/develop/ui/views/layout/recyclerview?hl=pt-br
